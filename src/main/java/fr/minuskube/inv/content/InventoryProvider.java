@@ -1,6 +1,6 @@
 package fr.minuskube.inv.content;
 
-import org.bukkit.entity.Player;
+import net.minestom.server.entity.Player;
 
 public interface InventoryProvider {
 

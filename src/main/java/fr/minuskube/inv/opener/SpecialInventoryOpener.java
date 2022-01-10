@@ -3,31 +3,31 @@ package fr.minuskube.inv.opener;
 import com.google.common.collect.ImmutableList;
 import fr.minuskube.inv.InventoryManager;
 import fr.minuskube.inv.SmartInventory;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryType;
-import org.bukkit.inventory.Inventory;
-
+import net.minestom.server.entity.Player;
+import net.minestom.server.inventory.Inventory;
+import net.minestom.server.inventory.InventoryType;
 import java.util.List;
 
 public class SpecialInventoryOpener implements InventoryOpener {
 
     private static final List<InventoryType> SUPPORTED = ImmutableList.of(
             InventoryType.FURNACE,
-            InventoryType.WORKBENCH,
-            InventoryType.DISPENSER,
-            InventoryType.DROPPER,
-            InventoryType.ENCHANTING,
-            InventoryType.BREWING,
+            InventoryType.BREWING_STAND,
             InventoryType.ANVIL,
             InventoryType.BEACON,
-            InventoryType.HOPPER
+            InventoryType.HOPPER,
+            InventoryType.CHEST_1_ROW,
+            InventoryType.CHEST_2_ROW,
+            InventoryType.CHEST_3_ROW,
+            InventoryType.CHEST_4_ROW,
+            InventoryType.CHEST_5_ROW,
+            InventoryType.CHEST_6_ROW
     );
 
     @Override
     public Inventory open(SmartInventory inv, Player player) {
         InventoryManager manager = inv.getManager();
-        Inventory handle = Bukkit.createInventory(player, inv.getType(), inv.getTitle());
+        Inventory handle = new Inventory(inv.getType(), inv.getTitle());
 
         fill(handle, manager.getContents(player).get());
 

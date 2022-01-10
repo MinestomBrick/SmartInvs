@@ -3,9 +3,9 @@ package fr.minuskube.inv.opener;
 import fr.minuskube.inv.ClickableItem;
 import fr.minuskube.inv.SmartInventory;
 import fr.minuskube.inv.content.InventoryContents;
-import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryType;
-import org.bukkit.inventory.Inventory;
+import net.minestom.server.entity.Player;
+import net.minestom.server.inventory.Inventory;
+import net.minestom.server.inventory.InventoryType;
 
 public interface InventoryOpener {
 
@@ -18,7 +18,7 @@ public interface InventoryOpener {
         for(int row = 0; row < items.length; row++) {
             for(int column = 0; column < items[row].length; column++) {
                 if(items[row][column] != null)
-                    handle.setItem(9 * row + column, items[row][column].getItem());
+                    handle.setItemStack(9 * row + column, items[row][column].getItem());
             }
         }
     }

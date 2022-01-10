@@ -2,10 +2,10 @@ package fr.minuskube.inv.content;
 
 import fr.minuskube.inv.ClickableItem;
 import fr.minuskube.inv.SmartInventory;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
+import net.minestom.server.MinecraftServer;
+import net.minestom.server.entity.Player;
+import net.minestom.server.inventory.Inventory;
+import net.minestom.server.item.ItemStack;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,14 +15,17 @@ import java.util.UUID;
 public interface InventoryContents {
 
     SmartInventory inventory();
+
     Pagination pagination();
 
     Optional<SlotIterator> iterator(String id);
 
     SlotIterator newIterator(String id, SlotIterator.Type type, int startRow, int startColumn);
+
     SlotIterator newIterator(SlotIterator.Type type, int startRow, int startColumn);
 
     SlotIterator newIterator(String id, SlotIterator.Type type, SlotPos startPos);
+
     SlotIterator newIterator(SlotIterator.Type type, SlotPos startPos);
 
     ClickableItem[][] all();
@@ -30,23 +33,30 @@ public interface InventoryContents {
     Optional<SlotPos> firstEmpty();
 
     Optional<ClickableItem> get(int row, int column);
+
     Optional<ClickableItem> get(SlotPos slotPos);
 
     InventoryContents set(int row, int column, ClickableItem item);
+
     InventoryContents set(SlotPos slotPos, ClickableItem item);
 
     InventoryContents add(ClickableItem item);
 
     InventoryContents fill(ClickableItem item);
+
     InventoryContents fillRow(int row, ClickableItem item);
+
     InventoryContents fillColumn(int column, ClickableItem item);
+
     InventoryContents fillBorders(ClickableItem item);
 
     InventoryContents fillRect(int fromRow, int fromColumn,
                                int toRow, int toColumn, ClickableItem item);
+
     InventoryContents fillRect(SlotPos fromPos, SlotPos toPos, ClickableItem item);
 
     <T> T property(String name);
+
     <T> T property(String name, T def);
 
     InventoryContents setProperty(String name, Object value);
@@ -69,10 +79,14 @@ public interface InventoryContents {
         }
 
         @Override
-        public SmartInventory inventory() { return inv; }
+        public SmartInventory inventory() {
+            return inv;
+        }
 
         @Override
-        public Pagination pagination() { return pagination; }
+        public Pagination pagination() {
+            return pagination;
+        }
 
         @Override
         public Optional<SlotIterator> iterator(String id) {
@@ -104,13 +118,15 @@ public interface InventoryContents {
         }
 
         @Override
-        public ClickableItem[][] all() { return contents; }
+        public ClickableItem[][] all() {
+            return contents;
+        }
 
         @Override
         public Optional<SlotPos> firstEmpty() {
             for (int row = 0; row < contents.length; row++) {
-                for(int column = 0; column < contents[0].length; column++) {
-                    if(!this.get(row, column).isPresent())
+                for (int column = 0; column < contents[0].length; column++) {
+                    if (!this.get(row, column).isPresent())
                         return Optional.of(new SlotPos(row, column));
                 }
             }
@@ -120,9 +136,9 @@ public interface InventoryContents {
 
         @Override
         public Optional<ClickableItem> get(int row, int column) {
-            if(row >= contents.length)
+            if (row >= contents.length)
                 return Optional.empty();
-            if(column >= contents[row].length)
+            if (column >= contents[row].length)
                 return Optional.empty();
 
             return Optional.ofNullable(contents[row][column]);
@@ -135,9 +151,9 @@ public interface InventoryContents {
 
         @Override
         public InventoryContents set(int row, int column, ClickableItem item) {
-            if(row >= contents.length)
+            if (row >= contents.length)
                 return this;
-            if(column >= contents[row].length)
+            if (column >= contents[row].length)
                 return this;
 
             contents[row][column] = item;
@@ -152,9 +168,9 @@ public interface InventoryContents {
 
         @Override
         public InventoryContents add(ClickableItem item) {
-            for(int row = 0; row < contents.length; row++) {
-                for(int column = 0; column < contents[0].length; column++) {
-                    if(contents[row][column] == null) {
+            for (int row = 0; row < contents.length; row++) {
+                for (int column = 0; column < contents[0].length; column++) {
+                    if (contents[row][column] == null) {
                         set(row, column, item);
                         return this;
                     }
@@ -166,8 +182,8 @@ public interface InventoryContents {
 
         @Override
         public InventoryContents fill(ClickableItem item) {
-            for(int row = 0; row < contents.length; row++)
-                for(int column = 0; column < contents[row].length; column++)
+            for (int row = 0; row < contents.length; row++)
+                for (int column = 0; column < contents[row].length; column++)
                     set(row, column, item);
 
             return this;
@@ -175,10 +191,10 @@ public interface InventoryContents {
 
         @Override
         public InventoryContents fillRow(int row, ClickableItem item) {
-            if(row >= contents.length)
+            if (row >= contents.length)
                 return this;
 
-            for(int column = 0; column < contents[row].length; column++)
+            for (int column = 0; column < contents[row].length; column++)
                 set(row, column, item);
 
             return this;
@@ -186,7 +202,7 @@ public interface InventoryContents {
 
         @Override
         public InventoryContents fillColumn(int column, ClickableItem item) {
-            for(int row = 0; row < contents.length; row++)
+            for (int row = 0; row < contents.length; row++)
                 set(row, column, item);
 
             return this;
@@ -200,9 +216,9 @@ public interface InventoryContents {
 
         @Override
         public InventoryContents fillRect(int fromRow, int fromColumn, int toRow, int toColumn, ClickableItem item) {
-            for(int row = fromRow; row <= toRow; row++) {
-                for(int column = fromColumn; column <= toColumn; column++) {
-                    if(row != fromRow && row != toRow && column != fromColumn && column != toColumn)
+            for (int row = fromRow; row <= toRow; row++) {
+                for (int column = fromColumn; column <= toColumn; column++) {
+                    if (row != fromRow && row != toRow && column != fromColumn && column != toColumn)
                         continue;
 
                     set(row, column, item);
@@ -236,12 +252,12 @@ public interface InventoryContents {
         }
 
         private void update(int row, int column, ItemStack item) {
-            Player currentPlayer = Bukkit.getPlayer(player);
-            if(!inv.getManager().getOpenedPlayers(inv).contains(currentPlayer))
+            Player currentPlayer = MinecraftServer.getConnectionManager().getPlayer(player);
+            if (!inv.getManager().getOpenedPlayers(inv).contains(currentPlayer))
                 return;
 
-            Inventory topInventory = currentPlayer.getOpenInventory().getTopInventory();
-            topInventory.setItem(inv.getColumns() * row + column, item);
+            Inventory topInventory = currentPlayer.getOpenInventory();
+            topInventory.setItemStack(inv.getColumns() * row + column, item);
         }
 
     }
