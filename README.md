@@ -16,3 +16,8 @@ Advanced Inventory API for Minestom Extensions.
 
 ## Issues
 If you have a problem with the API, or you want to request a feature, make an issue [here](https://github.com/MinusKube/SmartInvs/issues).
+
+#Credits
+
+[SmartInvs](https://github.com/MinusKube/SmartInvs)
+[Minestom](https://github.com/Minestom/Minestom)
