@@ -15,7 +15,6 @@ import net.minestom.server.event.inventory.InventoryCloseEvent;
 import net.minestom.server.event.inventory.InventoryOpenEvent;
 import net.minestom.server.event.inventory.InventoryPreClickEvent;
 import net.minestom.server.event.player.PlayerDisconnectEvent;
-import net.minestom.server.event.trait.InventoryEvent;
 import net.minestom.server.extensions.Extension;
 import net.minestom.server.inventory.Inventory;
 import net.minestom.server.inventory.InventoryType;
@@ -28,7 +27,6 @@ import java.util.*;
 public class InventoryManager {
 
     private final Extension extension;
-    private final CommandManager pluginManager;
 
     private final Map<UUID, SmartInventory> inventories;
     private final Map<UUID, InventoryContents> contents;
@@ -38,8 +36,6 @@ public class InventoryManager {
 
     public InventoryManager(Extension extension) {
         this.extension = extension;
-        this.pluginManager = MinecraftServer.getCommandManager();
-
         this.inventories = new HashMap<>();
         this.contents = new HashMap<>();
 
@@ -51,11 +47,12 @@ public class InventoryManager {
         this.openers = new ArrayList<>();
     }
 
-    public void init(EventNode<InventoryEvent> eventNode) {
+    public void init(EventNode<Event> eventNode) {
         eventNode
                 .addListener(new InvListenerClose())
                 .addListener(new InvListenerClick())
-                .addListener(new InvListenerOpen());
+                .addListener(new InvListenerOpen())
+                .addListener(new PlayerQuitListener());
 
         MinecraftServer.getSchedulerManager().submitTask(() -> {
             new HashMap<>(inventories).forEach((uuid, inv) -> {
@@ -244,5 +241,34 @@ public class InventoryManager {
             return Result.SUCCESS;
         }
     }
+
+    class PlayerQuitListener implements EventListener<PlayerDisconnectEvent> {
+
+
+        @Override
+        public @NotNull Class<PlayerDisconnectEvent> eventType() {
+            return PlayerDisconnectEvent.class;
+        }
+
+        @Override
+        public @NotNull Result run(@NotNull PlayerDisconnectEvent event) {
+            Player p = event.getPlayer();
+
+            if (!inventories.containsKey(p.getUuid()))
+                return Result.INVALID;
+
+            SmartInventory inv = inventories.get(p.getUuid());
+
+            inv.getListeners().stream()
+                    .filter(listener -> listener.getType() == PlayerDisconnectEvent.class)
+                    .forEach(listener -> ((InventoryListener<PlayerDisconnectEvent>) listener).accept(event));
+
+            inventories.remove(p.getUuid());
+            contents.remove(p.getUuid());
+            return Result.SUCCESS;
+        }
+    }
+
+
 }
 

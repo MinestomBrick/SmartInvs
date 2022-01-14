@@ -27,8 +27,8 @@ public class SmartInvsPlugin extends Extension {
     public void initialize() {
         instance = this;
 
-        EventNode<InventoryEvent> eventNode = EventNode
-                .type("smartinvs-listener", EventFilter.INVENTORY);
+        EventNode<Event> eventNode = EventNode
+                .all("smartinvs-listener");
 
         invManager = new InventoryManager(this);
         invManager.init(eventNode);
