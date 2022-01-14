@@ -145,6 +145,7 @@ public class InventoryManager {
         @Override
         public @NotNull Result run(@NotNull InventoryPreClickEvent event) {
             Player p = event.getPlayer();
+
             if (!inventories.containsKey(p.getUuid()))
                 return Result.SUCCESS;
 

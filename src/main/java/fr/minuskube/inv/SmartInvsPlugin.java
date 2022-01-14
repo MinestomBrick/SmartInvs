@@ -1,7 +1,9 @@
 package fr.minuskube.inv;
 
+import net.minestom.server.MinecraftServer;
 import net.minestom.server.event.Event;
 import net.minestom.server.event.EventNode;
+import net.minestom.server.event.player.PlayerMoveEvent;
 import net.minestom.server.extensions.Extension;
 
 public class SmartInvsPlugin extends Extension {
@@ -27,6 +29,9 @@ public class SmartInvsPlugin extends Extension {
 
         EventNode<Event> eventNode = EventNode
                 .all("smartinvs-listener");
+
+        MinecraftServer.getGlobalEventHandler()
+                .addChild(eventNode);
 
         invManager = new InventoryManager(this);
         invManager.init(eventNode);
