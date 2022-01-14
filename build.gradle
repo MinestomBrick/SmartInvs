@@ -3,9 +3,6 @@ plugins {
     id "com.github.johnrengelman.shadow" version "7.1.2"
 }
 
-
-
-
 allprojects {
     apply {
         plugin 'java'
@@ -22,7 +19,7 @@ allprojects {
     }
 
     dependencies {
-        implementation 'com.github.Minestom:Minestom:master-SNAPSHOT'
+        compileOnly 'com.github.Minestom:Minestom:master-SNAPSHOT'
     }
 
 
