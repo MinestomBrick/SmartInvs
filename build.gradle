@@ -1,41 +1,19 @@
 plugins {
-    id 'java'
+    id 'java-library'
     id "com.github.johnrengelman.shadow" version "7.1.2"
 }
 
 allprojects {
-    apply {
-        plugin 'java'
-        plugin 'com.github.johnrengelman.shadow'
-        plugin 'maven-publish'
-
-    }
-
     group 'fr.minuskube.inv'
     version '1.0-SNAPSHOT'
-
-    repositories {
-        mavenCentral()
-        maven { url 'https://repo.spongepowered.org/maven' }
-        maven { url 'https://jitpack.io' }
-    }
-
-    dependencies {
-        compileOnly 'com.github.Minestom:Minestom:master-SNAPSHOT'
-    }
-
-
 }
 
-shadowJar {
-    archiveClassifier.set("")
-    archiveBaseName.set("${rootProject.name}")
-    archiveVersion.set("${rootProject.version}")
+repositories {
+    mavenCentral()
+    maven { url 'https://repo.spongepowered.org/maven' }
+    maven { url 'https://jitpack.io' }
+}
 
-    doLast {
-        copy {
-            from "build/libs/" + archiveFileName.get()
-            into "/"
-        }
-    }
+dependencies {
+    compileOnly 'com.github.Minestom:Minestom:master-SNAPSHOT'
 }
