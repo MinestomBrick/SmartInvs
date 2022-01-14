@@ -3,19 +3,23 @@ plugins {
     id "com.github.johnrengelman.shadow" version "7.1.2"
 }
 
+group 'fr.minuskube.inv'
+version '1.0-SNAPSHOT'
+
 jar {
     manifest {
-        attributes 'Main-Class': 'com.gufli.brickchat.BrickChat'
+        attributes 'Main-Class': 'fr.minuskube.inv.SmartInvsPlugin'
     }
 }
 
-dependencies {
-
-    compileOnly 'com.github.Minestom:Minestom:-SNAPSHOT'
+repositories {
+    mavenCentral()
+    maven { url 'https://repo.spongepowered.org/maven' }
+    maven { url 'https://jitpack.io' }
 }
 
-test {
-    useJUnitPlatform()
+dependencies {
+    implementation 'com.github.Minestom:Minestom:1.18-SNAPSHOT'
 }
 
 shadowJar {
@@ -26,7 +30,7 @@ shadowJar {
     doLast {
         copy {
             from "build/libs/" + archiveFileName.get()
-            into "../../server/extensions"
+            into "/"
         }
     }
 }
