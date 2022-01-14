@@ -7,12 +7,15 @@ import fr.minuskube.inv.opener.SpecialInventoryOpener;
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.command.CommandManager;
 import net.minestom.server.entity.Player;
+import net.minestom.server.event.Event;
 import net.minestom.server.event.EventListener;
+import net.minestom.server.event.EventNode;
 import net.minestom.server.event.inventory.InventoryClickEvent;
 import net.minestom.server.event.inventory.InventoryCloseEvent;
 import net.minestom.server.event.inventory.InventoryOpenEvent;
 import net.minestom.server.event.inventory.InventoryPreClickEvent;
 import net.minestom.server.event.player.PlayerDisconnectEvent;
+import net.minestom.server.event.trait.InventoryEvent;
 import net.minestom.server.extensions.Extension;
 import net.minestom.server.inventory.Inventory;
 import net.minestom.server.inventory.InventoryType;
@@ -24,17 +27,17 @@ import java.util.*;
 
 public class InventoryManager {
 
-    private Extension plugin;
-    private CommandManager pluginManager;
+    private final Extension extension;
+    private final CommandManager pluginManager;
 
-    private Map<UUID, SmartInventory> inventories;
-    private Map<UUID, InventoryContents> contents;
+    private final Map<UUID, SmartInventory> inventories;
+    private final Map<UUID, InventoryContents> contents;
 
-    private List<InventoryOpener> defaultOpeners;
-    private List<InventoryOpener> openers;
+    private final List<InventoryOpener> defaultOpeners;
+    private final List<InventoryOpener> openers;
 
-    public InventoryManager(Extension plugin) {
-        this.plugin = plugin;
+    public InventoryManager(Extension extension) {
+        this.extension = extension;
         this.pluginManager = MinecraftServer.getCommandManager();
 
         this.inventories = new HashMap<>();
@@ -48,8 +51,8 @@ public class InventoryManager {
         this.openers = new ArrayList<>();
     }
 
-    public void init() {
-        MinecraftServer.getGlobalEventHandler()
+    public void init(EventNode<InventoryEvent> eventNode) {
+        eventNode
                 .addListener(new InvListenerClose())
                 .addListener(new InvListenerClick())
                 .addListener(new InvListenerOpen());
@@ -125,13 +128,13 @@ public class InventoryManager {
         inventory.close(player);
 
 
-        plugin.getLogger().error("Error while opening SmartInventory:", exception);
+        extension.getLogger().error("Error while opening SmartInventory:", exception);
     }
 
     public void handleInventoryUpdateError(SmartInventory inventory, Player player, Exception exception) {
         inventory.close(player);
 
-        plugin.getLogger().error("Error while updating SmartInventory:", exception);
+        extension.getLogger().error("Error while updating SmartInventory:", exception);
     }
 
     @SuppressWarnings("unchecked")
@@ -241,34 +244,5 @@ public class InventoryManager {
             return Result.SUCCESS;
         }
     }
-
-    class PlayerQuitListener implements EventListener<PlayerDisconnectEvent> {
-
-
-        @Override
-        public @NotNull Class<PlayerDisconnectEvent> eventType() {
-            return PlayerDisconnectEvent.class;
-        }
-
-        @Override
-        public @NotNull Result run(@NotNull PlayerDisconnectEvent event) {
-            Player p = event.getPlayer();
-
-            if (!inventories.containsKey(p.getUuid()))
-                return Result.INVALID;
-
-            SmartInventory inv = inventories.get(p.getUuid());
-
-            inv.getListeners().stream()
-                    .filter(listener -> listener.getType() == PlayerDisconnectEvent.class)
-                    .forEach(listener -> ((InventoryListener<PlayerDisconnectEvent>) listener).accept(event));
-
-            inventories.remove(p.getUuid());
-            contents.remove(p.getUuid());
-            return Result.SUCCESS;
-        }
-    }
-
-
 }
 
