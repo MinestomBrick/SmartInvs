@@ -20,7 +20,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.Minestom:Minestom:-SNAPSHOT'
+    implementation 'com.github.Minestom:Minestom:master-SNAPSHOT'
 }
 
 shadowJar {
