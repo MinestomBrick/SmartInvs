@@ -19,8 +19,6 @@ public class ChestInventoryOpener implements InventoryOpener {
 
         InventoryManager manager = inv.getManager();
 
-        System.out.println(inv.getRows() * inv.getColumns());
-
         InventoryType type = switch (inv.getRows() * inv.getColumns()) {
             case 9 -> InventoryType.CHEST_1_ROW;
             case 18 -> InventoryType.CHEST_2_ROW;
