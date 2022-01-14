@@ -7,6 +7,8 @@ allprojects {
     apply {
         plugin 'java'
         plugin 'com.github.johnrengelman.shadow'
+        plugin 'maven-publish'
+
     }
 
     group 'fr.minuskube.inv'
