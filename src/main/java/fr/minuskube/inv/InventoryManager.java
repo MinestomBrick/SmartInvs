@@ -139,7 +139,7 @@ public class InventoryManager {
 
         @Override
         public @NotNull Class<InventoryPreClickEvent > eventType() {
-            return InventoryPreClickEvent .class;
+            return InventoryPreClickEvent.class;
         }
 
         @Override
@@ -171,7 +171,7 @@ public class InventoryManager {
                     return Result.INVALID;
 
                 inv.getListeners().stream()
-                        .filter(listener -> listener.getType() == InventoryClickEvent.class)
+                        .filter(listener -> listener.getType() == InventoryPreClickEvent.class)
                         .forEach(listener -> ((InventoryListener<InventoryPreClickEvent>) listener).accept(event));
 
                 contents.get(p.getUuid()).get(row, column).ifPresent(item -> item.run(event));

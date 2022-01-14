@@ -19,17 +19,17 @@ public class ChestInventoryOpener implements InventoryOpener {
 
         InventoryManager manager = inv.getManager();
 
-        InventoryType type = null;
         System.out.println(inv.getRows() * inv.getColumns());
 
-        switch (inv.getRows() * inv.getColumns()) {
-            case 9 -> type = InventoryType.CHEST_1_ROW;
-            case 18 -> type = InventoryType.CHEST_2_ROW;
-            case 27 -> type = InventoryType.CHEST_3_ROW;
-            case 36 -> type = InventoryType.CHEST_4_ROW;
-            case 45 -> type = InventoryType.CHEST_5_ROW;
-            case 54 -> type = InventoryType.CHEST_6_ROW;
-        }
+        InventoryType type = switch (inv.getRows() * inv.getColumns()) {
+            case 9 -> InventoryType.CHEST_1_ROW;
+            case 18 -> InventoryType.CHEST_2_ROW;
+            case 27 -> InventoryType.CHEST_3_ROW;
+            case 36 -> InventoryType.CHEST_4_ROW;
+            case 45 -> InventoryType.CHEST_5_ROW;
+            case 54 -> InventoryType.CHEST_6_ROW;
+            default -> throw new IllegalStateException("Unexpected value: " + inv.getRows() * inv.getColumns());
+        };
 
         Inventory handle = new Inventory(type, inv.getTitle());
 
