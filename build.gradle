@@ -9,6 +9,19 @@ allprojects {
     version '1.0-SNAPSHOT'
 }
 
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = 'fr.minuskube.inv'
+            artifactId = 'library'
+            version = '1.0-SNAPSHOT'
+
+            from components.java
+        }
+    }
+}
+
+
 repositories {
     mavenCentral()
     maven { url 'https://repo.spongepowered.org/maven' }
