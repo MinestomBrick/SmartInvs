@@ -1,39 +1,32 @@
 plugins {
     id 'java'
+    id "com.github.johnrengelman.shadow" version "7.1.2"
 }
 
-group 'fr.minuskube.inv'
-version '1.0-SNAPSHOT'
-
-compileJava {
-    sourceCompatibility = 1.17
-    targetCompatibility = 1.17
+jar {
+    manifest {
+        attributes 'Main-Class': 'com.gufli.brickchat.BrickChat'
+    }
 }
 
-java {
-        toolchain {
-            languageVersion.set(JavaLanguageVersion.of(17))
+dependencies {
+
+    compileOnly 'com.github.Minestom:Minestom:-SNAPSHOT'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+shadowJar {
+    archiveClassifier.set("")
+    archiveBaseName.set("${rootProject.name}")
+    archiveVersion.set("${rootProject.version}")
+
+    doLast {
+        copy {
+            from "build/libs/" + archiveFileName.get()
+            into "../../server/extensions"
         }
-    }
-
-
-subprojects {
-    apply plugin: 'java'
-
-    sourceCompatibility = 1.17
-    targetCompatibility = 1.17
-
-    group = parent.group;
-    version = parent.version;
-
-    tasks.withType(JavaCompile) {
-        options.encoding = 'UTF-8'
-    }
-
-    repositories {
-        mavenCentral()
-
-        maven { url 'https://jitpack.io' }
-        maven { url 'https://repo.spongepowered.org/maven' }
     }
 }
