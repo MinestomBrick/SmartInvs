@@ -3,12 +3,14 @@ package fr.minuskube.inv;
 import fr.minuskube.inv.content.InventoryContents;
 import fr.minuskube.inv.content.InventoryProvider;
 import fr.minuskube.inv.opener.InventoryOpener;
+import net.kyori.adventure.text.Component;
 import net.minestom.server.entity.Player;
 import net.minestom.server.event.Event;
 import net.minestom.server.event.inventory.InventoryCloseEvent;
 import net.minestom.server.inventory.Inventory;
 import net.minestom.server.inventory.InventoryType;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -17,7 +19,7 @@ import java.util.Optional;
 public class SmartInventory {
 
     private String id;
-    private String title;
+    private Component title;
     private InventoryType type;
     private int rows, columns;
     private boolean closeable;
@@ -95,9 +97,10 @@ public class SmartInventory {
         return id;
     }
 
-    public String getTitle() {
+    public Component getTitle(){
         return title;
     }
+
 
     public InventoryType getType() {
         return type;
@@ -138,7 +141,7 @@ public class SmartInventory {
     public static final class Builder {
 
         private String id = "unknown";
-        private String title = "";
+        private Component title = Component.text("");
         private InventoryType type = InventoryType.CHEST_6_ROW;
         private int rows = 6, columns = 9;
         private boolean closeable = true;
@@ -157,7 +160,7 @@ public class SmartInventory {
             return this;
         }
 
-        public Builder title(String title) {
+        public Builder title(Component title) {
             this.title = title;
             return this;
         }
