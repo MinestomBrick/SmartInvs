@@ -1,26 +1,11 @@
 plugins {
-    id 'java-library'
+    id 'java'
     id 'maven-publish'
     id "com.github.johnrengelman.shadow" version "7.1.2"
 }
 
-allprojects {
-    group 'fr.minuskube.inv'
-    version '1.0-SNAPSHOT'
-}
-
-publishing {
-    publications {
-        maven(MavenPublication) {
-            groupId = 'fr.minuskube.inv'
-            artifactId = 'library'
-            version = '1.0-SNAPSHOT'
-
-            from components.java
-        }
-    }
-}
-
+group 'fr.minuskube.inv'
+version '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
@@ -29,5 +14,25 @@ repositories {
 }
 
 dependencies {
-    compileOnly 'com.github.Minestom:Minestom:master-SNAPSHOT'
+    compileOnly 'com.github.Minestom:Minestom:-SNAPSHOT'
+    compileOnly 'com.google.guava:guava:23.0'
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "Jorisg"
+            url = uri("https://repo.jorisg.com/snapshots")
+            credentials(org.gradle.api.credentials.PasswordCredentials)
+        }
+    }
+
+    publications {
+        release(MavenPublication) {
+            from components.java
+            groupId = rootProject.group
+            artifactId = project.name
+            version = rootProject.version
+        }
+    }
 }

@@ -1,22 +1,36 @@
-SmartInvs for Minestom
+![SmartInvs Logo](http://minuskube.fr/img/smart-invs/smart_invs.png)
 
 # SmartInvs
-Easy to use advanced inventory api for minestom. 
+Advanced Inventory API for your Minestom.
 
-Ported from SmartInvs
+## Features
+* Inventories of any type (workbench, chest, furnace, ...)
+* Customizable size when possible (chest, ...)
+* Custom titles
+* Allows to prevent the player from closing its inventory
+* Custom listeners for the event related to the inventory
+* Iterator for inventory slots
+* Page system
+* Util methods to fill an inventory's row/column/borders/...
+* Actions when player clicks on an item
+* Update methods to edit the content of the inventory every tick
 
-*Tested on Minestom 1.18*
+## API
 
-## Docs
-[Click here to read the docs on Gitbook](https://minuskube.gitbook.io/smartinvs/)
+### Maven setup
+```
+repositories {
+    maven { url "https://repo.jorisg.com/snapshots" }
+}
+```
 
-[Building](https://jitpack.io/#MinestomBrick/SmartInvs)
+```
+dependencies {
+    compileOnly 'fr.minuskube.inv:SmartInvs:1.0-SNAPSHOT'
+}
+```
 
+### Usage
 
-## Issues
-If you have a problem with the API, or you want to request a feature, make an issue [here](https://github.com/MinestomBrick/SmartInvs/issues).
-
-#Credits
-
-- [SmartInvs](https://github.com/MinusKube/SmartInvs) - For providing this amazing inventory api
-- [Minestom](https://github.com/Minestom/Minestom) - Minecraft Server implementation
+* [Official docs on Gitbook](https://minuskube.gitbook.io/smartinvs/)
+* [javadocs](https://minestombrick.github.io/SmartInvs/)
