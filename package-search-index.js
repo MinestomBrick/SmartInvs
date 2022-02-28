@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"fr.minuskube.inv"},{"l":"fr.minuskube.inv.button"},{"l":"fr.minuskube.inv.content"},{"l":"fr.minuskube.inv.opener"}];updateSearchResults();
